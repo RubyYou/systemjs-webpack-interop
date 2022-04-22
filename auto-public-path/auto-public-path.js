@@ -12,16 +12,20 @@ exports.autoPublicPath = function autoPublicPath(rootDirLevel) {
       );
     }
 
-    if (!__system_context__.meta || !__system_context__.meta.url) {
-      console.error("__system_context__", __system_context__);
-      throw Error(
-        "systemjs-webpack-interop was provided an unknown SystemJS context. Expected context.meta.url, but none was provided"
-      );
-    }
+    if (__system_context__) {
+      if (!__system_context__.meta || !__system_context__.meta.url) {
+        console.error("__system_context__", __system_context__);
+        throw Error(
+          "systemjs-webpack-interop was provided an unknown SystemJS context. Expected context.meta.url, but none was provided"
+        );
+      }
 
-    __webpack_public_path__ = resolveDirectory(
-      __system_context__.meta.url,
-      rootDirLevel
-    );
+      __webpack_public_path__ = resolveDirectory(
+        __system_context__.meta.url,
+        rootDirLevel
+      );
+    } else {
+      __webpack_public_path__ = `${+process.env.VUE_APP_BASE_URL}/`
+    }
   }
 };
